@@ -14,6 +14,8 @@ Terraform module and Nomad WAGMI examples were not included as to provide more t
 
 Best Practices in term of Dockerfile image building (i.e. remove suid binaries) as well as Kubernetes runtime execution (i.e. disable privilege escalation) were used to ensure this container's attack surface is greatly reduced. Additionally, see `docker-scan-report.txt` in this repository for a Snyk `docker scan` report.
 
+> Note: As of 05/17/22, there is a critical vulnerability in libssl which has not yet been patched.
+
 ### Why not Multi-Stage?
 
 I decided against using multistage as we weren't exactly "building" assets, but instead leveraging an already built binary `bitcoind` as a the main container process.
