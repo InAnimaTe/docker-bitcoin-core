@@ -1,0 +1,25 @@
+## Simple build image, push to registy, and deploy to k8s - From Gitlab Docs
+
+services:
+  - docker:dind
+
+docker_build:
+  stage: build
+  image: docker:latest
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+## From https://docs.gitlab.com/ee/user/clusters/agent/ci_cd_workflow.html#update-your-gitlab-ciyml-file-to-run-kubectl-commands
+deploy:
+  dependencies:
+    - docker_build
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config get-contexts
+    - kubectl config use-context agent/repository:gitlab-deploy-agent
+    - kubectl apply -f deploy/ --dry-run
+    - kubectl apply -f deploy/
