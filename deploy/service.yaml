@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcoind
+  labels:
+    app: bitcoind
+spec:
+  type: LoadBalancer
+  selector:
+    app: bitcoind
+  ports:
+    - protocol: TCP
+      port: 8333
+      targetPort: incoming
+      name: node-incoming

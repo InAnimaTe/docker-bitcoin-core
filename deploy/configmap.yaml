@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bitcoind-config
+  namespace: default
+data:
+  bitcoin.conf: |
+    par=1
+    dbcache=120
+    maxmempool=150
+    timeout=50
+
