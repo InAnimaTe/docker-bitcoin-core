@@ -6,6 +6,7 @@ metadata:
   labels:
     app: bitcoind
 spec:
+  ## Need to maintain if doing PVC for storage in ReadWriteOnce (see above)
   replicas: 1
   selector:
     matchLabels:
@@ -18,6 +19,12 @@ spec:
       containers:
       - name: bitcoind
         image: inanimate/bitcoin-core:0.1.0
+        ## Lets verify this container cant escalate
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          ## We already drop privs in the container so don't need to specify runAsUser
+          runAsNonRoot: True
         args: ["-conf=/app/bitcoin-core/bitcoin.conf"]
         volumeMounts:
           - name: bitcoin.conf
