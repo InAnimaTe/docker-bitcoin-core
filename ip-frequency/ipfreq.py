@@ -29,11 +29,12 @@ def main():
     )
 
     args = parser.parse_args()
-
+    
+    # Open file
     log_file = open(args.logfile)
-
+    # Pass file and iterate through each line
     ip_list = collect_ips(log_file)
-
+    # Count and sort those IPs
     ip_occurrence(ip_list)
 
 if __name__ == "__main__":
